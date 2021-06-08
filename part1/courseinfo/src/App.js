@@ -1,6 +1,6 @@
 import React from 'react'
 
-const App = () => {
+  const App = () => {
     const course = {
       name: 'Half Stack application development',
       parts: [
@@ -18,52 +18,44 @@ const App = () => {
         }
       ]
     }
-  
-    return (
-        <div>
-            <Header name={course.name}/>            
-            <Content parts={course.parts}/>        
-            <Total parts={course.parts}/>          
-        </div>    
-    )    
+
+  return (
+    <div>      
+      <Header name={course.name}/>
+      <Content parts={course.parts}/>
+      <Total parts={course.parts}/>
+    </div>
+  )
+}
+
+const Header=(props)=>{
+  return(
+    <div>
+      <h1>{props.name}</h1>
+    </div>
+  )
+}
+
+const Content=(props)=>{
+  const P=props.parts
+  const Q=P.map((value)=>{
+    return(
+      <p>{value.name} {value.exercises}</p>
+    )
   }
-const Header = (props) => {   
-    console.log(props.name)     
-    return (
-        <div>
-            <p>Course : {props.name}</p>            
-        </div>
-    )
+  )
+  return Q
 }
 
-const Content = (props) => {
-    const part1=props.parts[0]
-    console.log(part1)
-    const part2=props.parts[1]
-    console.log(part2)
-    const part3=props.parts[2]    
-    console.log(part3)
-    return (
-        <div>
-            <p>{part1.name} - {part1.exercises}</p>
-            <p>{part2.name} - {part2.exercises}</p>
-            <p>{part3.name} - {part3.exercises}</p>
-        </div>
-    )
-}
-
-const Total = (props) => {  
-    const part1=props.parts[0]
-    console.log(part1)
-    const part2=props.parts[1]
-    console.log(part2)
-    const part3=props.parts[2]    
-    console.log(part3)      
-    return (
-        <div>
-            <p>Total - {part1.exercises+part2.exercises+part3.exercises}</p>
-        </div>
-    )
+const Total=(props)=>{
+  const P=props.parts
+  let count=0;
+  for(const i of P){
+    count+=i.exercises
+  }
+  return (
+    <div><p>Number of exercises {count}</p></div>
+  )
 }
 
 export default App
