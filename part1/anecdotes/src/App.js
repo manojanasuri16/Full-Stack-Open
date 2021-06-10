@@ -1,61 +1,62 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react'
 
-const  App = () => {
+const App = () => {
   const anecdotes = [
     'If it hurts, do it more often',
     'Adding manpower to a late software project makes it later!',
     'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
     'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
     'Premature optimization is the root of all evil.',
-    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-  ]
-
-  const [selected,setSelected] = useState(0)
-  const [points,setPoints] = useState(Array(6).fill(0))  
-
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blod tests when dianosing patients'
+  ] 
+   
+  const [selected, setSelected] = useState(0)
+  
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0))
+  
+  const nextAnecdote=()=>setSelected(Math.floor((Math.random() * anecdotes.length)))  
+  
   const vote=()=>{
-    const copy = [...points]
-     copy[selected] += 1;
-     setPoints(copy) 
+    const copy=[...votes]; //Copy of the last state of votes
+    copy[selected]+=1 //Increment by one for the corresponding anecdote
+    setVotes(copy) //Set the array with the update votes to the component's state
   }
 
-  const nextAncedote=()=>{setSelected(Math.round(Math.random() * 5))}
+  const maxVote=votes.reduce(function(a,b){
+    return Math.max(a,b)
+  })
+
+  const maxAnecdote=anecdotes[votes.indexOf(maxVote)]
 
   return (
     <div>
-      <h3>Anecdote of the day</h3>
-      <p>
-      <Display anecdote={anecdotes[selected]} votes={points[selected]}/>
-      <Button listener={vote} text="vote"/>
-      <Button listener={nextAncedote} text='nextanecdote'/>
-      </p>
-      <h3>Anecdote with most votes</h3>
-      <MaxVotes anecdotes={anecdotes} points={points} />
+      <Anecdote anecdote={anecdotes[selected]} votes={votes[selected]}/>    
+      <Button listener={vote} text='vote'/>
+      <Button listener={nextAnecdote} text='nextanecdote'/>            
+      <MostVotedAnecdote maxAnecdote={maxAnecdote} maxVotes={maxVote}/>
     </div>
-  );
+  )
 }
 
-const Display=({anecdote,votes})=>{
+const Anecdote=({anecdote,votes})=>{
   return(
     <div>
-        {anecdote}<br/>
-        has {votes} votes
+      <h2>Anecdote of the day</h2>
+      {anecdote}<br/>has {votes} votes
     </div>
   )
 }
 
-const Button = ({text,listener}) => {
+const Button=({text,listener}) => <button onClick={listener}>{text}</button>
+
+const MostVotedAnecdote=({maxAnecdote,maxVotes})=>{
   return(
-    <button onClick={listener}>{text}</button>
+    <div>
+      <h2>Anecdote with most votes</h2>
+      <p>{maxAnecdote}<br/>has {maxVotes} votes</p>
+    </div>    
   )
 }
 
-const MaxVotes = ({anecdotes,points}) => {
-  const a=Math.max(...points)
-  const b=points.indexOf(a)
-  return(
-    <Display anecdote={anecdotes[b]} votes={points[b]}/>
-  )
-}
-
-export default App;
+export default App
