@@ -10,16 +10,6 @@ const Course=({course})=>{
     )
 }
   
-  const Total=({course})=>{  
-    const total=course.map((value)=>{
-      return(value.exercises)
-    })
-    const Q=total.reduce((total,e)=>{return total+e})  
-    return(
-      <div>total of {Q} exercises</div>
-    )
-  }
-  
   const Header=({name})=>{  
     return(
       <div>
@@ -43,6 +33,16 @@ const Course=({course})=>{
       <div>
         <p>{props.name} {props.exercises}</p>
       </div>
+    )
+  }
+
+  const Total=({course})=>{  
+    const total=course.map((value)=>{
+      return(value.exercises)
+    })
+    const Q=total.reduce((total,e)=>{return total+e})  
+    return(
+      <div>total of {Q} exercises</div>
     )
   }
   
