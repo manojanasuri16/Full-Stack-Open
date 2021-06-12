@@ -1,45 +1,49 @@
 import React from 'react'
 
-const Course=({p})=>{
+const Course=({course})=>{  
     return(
-      <div>
-        <Header name={p.name}/>
-        <Content h={p.parts}/>
-        <Total h={p.parts}/>
+      <div>    
+      <Header key={course.id} name={course.name}/> 
+      <Content parts={course.parts}/>    
+      <Total course={course.parts}/>
       </div>
     )
+}
+  
+  const Total=({course})=>{  
+    const total=course.map((value)=>{
+      return(value.exercises)
+    })
+    const Q=total.reduce((total,e)=>{return total+e})  
+    return(
+      <div>total of {Q} exercises</div>
+    )
   }
-   
-  const Header=({name})=>{return <h2>{name}</h2>}
-    
-  const Content=({h})=>{
+  
+  const Header=({name})=>{  
     return(
       <div>
-        {
-          h.map(part=>{
-            return(
-              <Part key={part.id} name1={part.name} name2={part.exercises}/>
-            )
-          }
-
-          )
-        }
+        <h1>{name}</h1>
       </div>
     )
   }
   
-  const Part=({name1,name2})=>{
+  const Content=(props)=>{  
+    const P=props.parts
+    const Q=P.map(value=>{
+      return(
+        <Part key={value.id} name={value.name} exercises={value.exercises}/> 
+      )
+    })
+    return(<div>{Q}</div>)
+  }  
+  
+  const Part=(props)=>{  
     return(
-      <p>{name1} {name2}</p>
+      <div>
+        <p>{props.name} {props.exercises}</p>
+      </div>
     )
   }
-
-  const Total=({h})=>{
-    const d=h.map((can)=>{return(can.exercises)})
-    const sol=d.reduce((d,e)=>{return d+e})
-    return(
-      <strong><p>total of {sol} exercises</p></strong>
-    )    
-  }
-
+  
   export default Course

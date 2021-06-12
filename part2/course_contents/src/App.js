@@ -1,7 +1,5 @@
 import React from 'react'
-import Course from './components/course'
-
-
+import Course from './components/Course.js'
 const App = () => {
   const courses = [
     {
@@ -46,19 +44,20 @@ const App = () => {
         }
       ]
     }
-  ]  
+  ]
+
   
   return (
     <div>
     {
-      courses.map((c)=>{
+      courses.map((values)=>{
         return(
-          <Course key={c.id} p={c}/>
+          <Course key={values.id} course={values}/>
         )
       })
     }
     </div>
-  )
+  )  
 }
-  
+
 export default App
